@@ -1,16 +1,16 @@
 package routes
 
 import (
-	"ecommerce/golang/controllers"
+	"ecommerce/golang/controller"
 
 	"github.com/gin-gonic/gin"
 )
 
 
 func UserRoutes(incomingRoutes *gin.Engine) {
-	incomingRoutes.POST("/users/signUp", controllers.SignUp())
-	incomingRoutes.POST("/users/login", controllers.Login())
-	incomingRoutes.POST("/admin/addProduct", controllers.AddProduct())
-	incomingRoutes.GET("/users/productView", controllers.SearchProduct())
-	incomingRoutes.GET("/users/search", controllers.SearchProductByQuery())
+	incomingRoutes.POST("/users/signUp", controller.SignUp())
+	incomingRoutes.POST("/users/login", controller.Login())
+	incomingRoutes.POST("/admin/addProduct", controller.ProductViewerAdmin())
+	incomingRoutes.GET("/users/productView", controller.SearchProduct())
+	incomingRoutes.GET("/users/search", controller.SearchProductByQuery())
 }

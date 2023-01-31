@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"ecommerce/golang/controllers"
+	"ecommerce/golang/controller"
 	"ecommerce/golang/database"
 	"ecommerce/golang/middleware"
 	"ecommerce/golang/routes"
@@ -18,8 +18,8 @@ func main() {
 		port = "8080"
 	}
 
-	app := controllers.NewApplication(
-		database.productData(database.Client, "products"),
+	app := controller.NewApplication(
+		database.ProductData(database.Client, "products"),
 		database.UserData(database.Client, "users"))
 	
 	router := gin.New()
@@ -28,10 +28,10 @@ func main() {
 	routes.UserRoutes(router)
 	router.Use(middleware.Authentication())
 
-	router.Get("/addtocart", app.AddToCart())
-	router.Get("/removeitem", app.RemoveItem())
-	router.Get("/cartcheckout", app.BuyFromCart())
-	router.Get("/instantbuy", app.InstantBuy())
+	router.GET("/addtocart", app.AddToCart())
+	router.GET("/removeitem", app.RemoveItem())
+	router.GET("/cartcheckout", app.BuyFromCart())
+	router.GET("/instantbuy", app.InstantBuy())
 
 	log.Fatal(router.Run(":" + port))
 }
