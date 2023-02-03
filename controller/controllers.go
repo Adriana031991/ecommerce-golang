@@ -91,13 +91,14 @@ func SignUp() gin.HandlerFunc {
 		user.Updated_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 		user.ID = primitive.NewObjectID()
 		user.User_id = user.ID.Hex()
-		token, refreshtoken, _ := generate.TokenGenerator(*user.Email, *user.First_name, *user.Last_Name, user.User_id)
+		token, refreshToken, _ := generate.TokenGenerator(*user.Email, *user.First_name, *user.Last_Name, user.User_id)
 		user.Token = &token
-		user.Refresh_token = &refreshtoken
+		user.Refresh_token = &refreshToken
 		user.UserCart = make([]models.ProductUser, 0)
 		user.Address_Details = make([]models.Address, 0)
 		user.Order_Status = make([]models.Order, 0)
 
+		fmt.Println("token", token)
 		_, inserter := UserCollection.InsertOne(ctx, user)
 		if inserter != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "not created"})
@@ -134,7 +135,7 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		token, refresh_token, _ := generate.TokenGenerator(*founduser.Email, *founduser.First_name, *founduser.Last_Name, founduser.User_id)
+		token, refresh_token, err := generate.TokenGenerator(*founduser.Email, *founduser.First_name, *founduser.Last_Name, founduser.User_id)
 		defer cancel()
 
 		generate.UpdateAllTokens(token, refresh_token, founduser.User_id)

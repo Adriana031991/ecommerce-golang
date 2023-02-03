@@ -8,15 +8,15 @@ import (
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 	
 const uri = "mongodb+srv://carritoCompras:gq672GC1ndQAdwca@carritodecompras.9zclosx.mongodb.net/?retryWrites=true&w=majority"
 
 
-func DBSetConnection1() *mongo.Client {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+func DBSetConnection() *mongo.Client {
+	// client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 
 	if err != nil {
 		log.Fatal(err)
@@ -43,26 +43,7 @@ func DBSetConnection1() *mongo.Client {
 
 }
 
-
-func DBSetConnection2() *mongo.Client {
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
-	if err != nil {
-		panic(err)
-	}
-	defer func() {
-		if err = client.Disconnect(context.TODO()); err != nil {
-			panic(err)
-		}
-	}()
-	// Ping the primary
-	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
-		panic(err)
-	}
-	fmt.Println("Successfully connected and pinged.")
-	return client
-}
-
-var Client *mongo.Client = DBSetConnection1()
+var Client *mongo.Client = DBSetConnection()
 
 func UserData(client *mongo.Client, collectionName string) *mongo.Collection {
 	var collection *mongo.Collection = client.Database("Ecommerce").Collection(collectionName)

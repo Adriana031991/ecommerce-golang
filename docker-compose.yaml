@@ -1,0 +1,18 @@
+version: '1.1'
+
+services:
+  mongo:
+    image: mongo:latest
+    # ports:
+    # -27017:27017
+  environment:
+    MONGO_INITDB_ROOT_USERNAME: carritoCompras
+    MONGO_INITDB_ROOT_PASSWORD: gq672GC1ndQAdwca
+
+  mongo-express:
+    ports:
+      -8081:8081
+    environment:
+      ME_CONFIG_MONGO_INITDB_ROOT_USERNAME: carritoCompras
+      ME_MONGO_INITDB_ROOT_PASSWORD: gq672GC1ndQAdwca
+      ME_CONFIG_MONGODB_URL: mongodb+srv://carritoCompras:gq672GC1ndQAdwca@carritodecompras.9zclosx.mongodb.net/?retryWrites=true&w=majority
